@@ -29,7 +29,6 @@ let movieSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Star',
     }],
-    ImagePath: String,
     Featured: Boolean,
     ImageURL: String,
 });
@@ -47,7 +46,8 @@ let userSchema = mongoose.Schema({
         type: String,
         required: true,
     },
-    Birthdate: Date,
+    Birthday: Date,
+    Death: Date,
     FavoriteMovies: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Movie',

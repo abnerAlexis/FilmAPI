@@ -37,9 +37,43 @@ const express = require('express'),
     });
 
     //Add new movie
-    app.post('/movies', (req, res) => {
+    app.post('/movies', async (req, res) => {
+        await Users.findOne({ Title: req.body.Title })
+          .then((movie) => {
+            if (movie) {
+              return res.status(400).send(req.body.Title + 'already exists');
+            } else {
+              Movies
+                .create({
+                  Title: req.body.Title,
+                  Description: req.body.Description,
+                  Year: req.body.Year,
+                  Genre: req.body.Genre,
+                  Director: [
+                    req.body.Director.Name,
+                    req.body.Director.Bio,
+                    req.body.Director.Birth,
+                    req.body.Director.Death,
+                  ],
+                  Actors: [
 
-    });
+                  ],
+                  Featured: req.body.Featured,
+                  ImageURL: req.body.ImageURL
+                })
+                .then((user) =>{res.status(201).json(user) })
+                .catch((error) => {
+                console.error(error);
+                res.status(500).send('Error: ' + error);
+              })
+            }
+          })
+          .catch((error) => {
+            console.error(error);
+            res.status(500).send('Error: ' + error);
+          });
+      });
+      
 
     app.listen(8080, () => {
         console.log("The app is listening on port 8080.")
