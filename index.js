@@ -100,9 +100,6 @@ app.get('/movies/genre/:Title', async (req, res) => {
       });
   });
 
-  //Get titles by the same genre
-  
-
 //Get actors list
 app.get("/actors", (req, res) => {
     Actors.find()
