@@ -191,6 +191,21 @@ app.get('/users/:Username', async (req, res) => {
       });
   });
 
+ // Add a movie to a user's list of favorites
+app.post('/users/:Username/movies/:movieid', async (req, res) => {
+  await Users.findOneAndUpdate({ Username: req.params.Username }, {
+     $push: { FavoriteMovies: req.params.movieid }
+   },
+   { new: true }) // This line makes sure that the updated document is returned
+  .then((updatedUser) => {
+    res.json(updatedUser);
+  })
+  .catch((err) => {
+    console.error(error);
+    res.status(500).send('Error' + error);
+  });
+});
+
 app.listen(8080, () => {
   console.log("The app is listening on port 8080.");
 });
