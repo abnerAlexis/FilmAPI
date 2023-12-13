@@ -42,12 +42,11 @@ let userSchema = mongoose.Schema({
         type: String,
         required: true,
     }, 
+    Birthday: Date,
     Email: {
         type: String,
         required: true,
     },
-    Birthday: Date,
-    Death: Date,
     FavoriteMovies: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Movie',

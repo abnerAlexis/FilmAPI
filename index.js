@@ -25,6 +25,12 @@ mongoose
     console.log(`DB connection error:${err}`);
   });
 
+//creating a write stream in append mode, and a txt file in root dir.
+const accessLogStream = fs.createWriteStream(path.join(__dirname, 'log.txt'), { flags: 'a' });
+
+//setting up the logger
+app.use(morgan('combined', { stream: accessLogStream }));
+
 const Movies = Models.Movie;
 const Users = Models.User;
 const Actors = Models.Actor;
@@ -67,8 +73,8 @@ app.post("/movies", async (req, res) => {
           Featured: req.body.Featured,
           ImageURL: req.body.ImageURL,
         })
-          .then((user) => {
-            res.status(201).json(user);
+          .then((movie) => {
+            res.status(201).json(movie);
           })
           .catch((error) => {
             console.error(error);
@@ -110,6 +116,46 @@ app.post('/actors', async (req, res) => {
             })
             .then((actor) =>{res.status(201).json(actor) })
             .catch((error) => {
+            console.error(error);
+            res.status(500).send('Error: ' + error);
+          })
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+        res.status(500).send('Error: ' + error);
+      });
+  });
+
+//Get users list
+app.get("/users", (req, res) => {
+    Users.find()
+    .then((users) => {
+      res.status(200).json(users);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send("Error: " + err);
+    });
+});
+
+//Add New User to users list
+app.post('/users', async (req, res) => {
+    await Users.findOne({ Username: req.body.Username })
+      .then((user) => {
+        if (user) {
+          return res.status(400).send(req.body.Username + 'already exists');
+        } else {
+          Users
+            .create({
+              Username: req.body.Username,
+              Password: req.body.Password,
+              Birthday: req.body.Birthday,
+              Email: req.body.Email,
+              FavoriteMovies: []
+            })
+            .then((user) =>{res.status(201).json(user) })
+          .catch((error) => {
             console.error(error);
             res.status(500).send('Error: ' + error);
           })
