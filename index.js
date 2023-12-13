@@ -13,12 +13,15 @@ const express = require('express'),
     const mongoose = require('mongoose');
     const Models = require('./models');
 
-    //Connect Mongoose to myFlixDB
-    mongoose.connect('mongodb://localhost:27017/filmDB', 
-    { 
-        useNewUrlParser: true, 
-        useUnifiedTopology: true 
-    });         
+    //Connect Mongoose to  
+    mongoose.connect('mongodb://localhost:27017/filmDB') //https://stackoverflow.com/questions/77415433/how-to-resolve-this-mongodb-warning-issue-in-node-js-and-how-to-traceback-about
+        .then(()=>{
+            console.log("DB connection successful.");
+        })
+        .catch((err)=>{
+            console.log(`DB connection error:${err}`);
+        });
+            
 
     const Movies = Models.Movie;
     const Users = Models.User;
@@ -28,8 +31,14 @@ const express = require('express'),
         res.send('Welcome to the movie app!');
     });
 
+    //Get movies list
     app.get('/movies', (req, res) => {
     res.send('Movies you will see!');
+    });
+
+    //Add new movie
+    app.post('/movies', (req, res) => {
+
     });
 
     app.listen(8080, () => {
