@@ -200,10 +200,25 @@ app.post('/users/:Username/movies/:movieid', async (req, res) => {
   .then((updatedUser) => {
     res.json(updatedUser);
   })
-  .catch((err) => {
+  .catch((error) => {
     console.error(error);
     res.status(500).send('Error' + error);
   });
+});
+
+//Add an actor to a movie's actors list
+app.post('/movies/:Title/actors/:actorid', async (req, res) => {
+  await Movies.findOneAndUpdate({ Title: req.params.Title }, {
+    $push: { Actors: req.params.actorid }
+  },
+  { new: true }) // This line makes sure that the updated document is returned
+ .then((updatedMovie) => {
+   res.json(updatedMovie);
+ })
+ .catch((error) => {
+   console.error(error);
+   res.status(500).send('Error' + error);
+ });
 });
 
 app.listen(8080, () => {
