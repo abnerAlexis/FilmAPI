@@ -88,6 +88,21 @@ app.post("/movies", async (req, res) => {
     });
 });
 
+//Get genre by title
+app.get('/movies/genre/:Title', async (req, res) => {
+    await Movies.findOne({ Title: req.params.Title }).select('Genre')
+      .then((movie) => {
+        res.json(movie);
+      })
+      .catch((err) => {
+        console.error(err);
+        res.status(500).send('Error: ' + err);
+      });
+  });
+
+  //Get titles by the same genre
+  
+
 //Get actors list
 app.get("/actors", (req, res) => {
     Actors.find()
@@ -164,6 +179,18 @@ app.post('/users', async (req, res) => {
       .catch((error) => {
         console.error(error);
         res.status(500).send('Error: ' + error);
+      });
+  });
+
+// Get a user by username
+app.get('/users/:Username', async (req, res) => {
+    await Users.findOne({ Username: req.params.Username })
+      .then((user) => {
+        res.json(user);
+      })
+      .catch((err) => {
+        console.error(err);
+        res.status(500).send('Error: ' + err);
       });
   });
 
