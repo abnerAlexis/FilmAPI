@@ -17,10 +17,10 @@ let movieSchema = mongoose.Schema({
     Director: {
         Name: String,
         Bio: String,
-        Born: {
+        Birth: {
             type: Date,
         },
-        Died: {
+        Death: {
             type: Date,
         },
     },
