@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>movie-api</title>    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/prism.min.js" integrity="sha512-UOoJElONeUNzQbbKQbjldDf9MwOHqxNz49NNJJ1d90yp+X9edsHyJoAs6O4K19CZGaIdjI5ohK+O2y5lBTW6uQ==" crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/themes/prism-coy.min.css" integrity="sha512-XcB0I04SuOVkb6ewfVz0qMhU5QADIiFBFxPRRNWZUANF1W5onx8GlbHYYIivw3gXrTuZfu+1gAG8HvvKQG3oGA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <h1>Movie App Documentation</h1>
+    
+    <ul style="list-style-type: none; ">
+        <li>
+            <h2>GET List of movies</h2>
+            <p><strong>End point: </strong> "/movies"</p>
+            <p><strong>HTTP Call Method: </strong>GET</p>
+            <p><strong>Request Body: </strong>None</p>
+            <p><strong>Response Body: </strong>Response Body: JSON object containing the movies</p>
+        </li>
+        <li>
+            <h2>GET a single movie BY TITLE</h2>
+            <p><strong>End point: </strong> "/movies/:[TITLE]"</p>
+            <p><strong>HTTP Call Method: </strong>GET</p>
+            <p><strong>Request Body: </strong>None</p>
+            <p><strong>Response Body: </strong>Response Body: JSON object containing genre, director, imageURL, featured/not featured of the movie</p>
+        </li>
+        <li>
+            <h2>GET genre BY TITLE</h2>
+            <p><strong>End point: </strong> "/movies/:[TITLE]"</p>
+            <p><strong>HTTP Call Method: </strong>GET</p>
+            <p><strong>Request Body: </strong>None</p>
+            <p><strong>Response Body: </strong>Response Body: A text message indicating genre of the movie</p>
+        </li>
+        <li>
+            <h2>GET director info BY DIRECTOR_NAME</h2>
+            <p><strong>End point: </strong> "/movies/:[DIRECTOR_NAME]"</p>
+            <p><strong>HTTP Call Method: </strong>GET</p>
+            <p><strong>Request Body: </strong>None</p>
+            <p><strong>Response Body: </strong>Response Body: JSON Object holding director information</p>
+        </li>
+        <li>
+            <h2>Add new user</h2>
+            <p><strong>End point: </strong> "/users]"</p>
+            <p><strong>HTTP Call Method: </strong>POST</p>
+            <p><strong>Request Body: </strong>
+                <pre><code class="language-json">
+                    {
+                        "Username": "jane_smith",
+                        "Password": "janepass",
+                        "Birthday": "1985-08-22T00:00:00.000Z",
+                        "Email": "jane.smith@example.com",
+                        "FavoriteMovies": [
+                        "65791e07b805aa59c51e1b36",
+                        "65791965b805aa59c51e1b2a",
+                        "65791c06b805aa59c51e1b30"
+                    }
+                    </code>
+                </pre>
+            </p>
+        </li>
+        <li>
+            <h2>Change username</h2>
+            <p><strong>End point: </strong> "/users/:[USERNAME]"</p>
+            <p><strong>HTTP Call Method: </strong>PUT</p>
+            <p><strong>Request Body: </strong>None</p>
+            <p><strong>Response Body: </strong>Response Body: Text message indicating the change of username</p>
+        </li>
+        <li>
+            <h2>Add movie to user's favorite movies</h2>
+            <p><strong>End point: </strong> "/users/:[USER-ID]"</p>
+            <p><strong>HTTP Call Method: </strong>POST</p>
+            <p><strong>Request Body: </strong>
+                <pre><code class="language-json">
+                    {
+                        "id": 8,
+                        "title": 'Pulp Fiction',
+                        "year": 1994,
+                        "genre": ['Crime', 'Drama'],
+                        "director": {
+                            "name": "Quentin Tarantino",
+                            "birthdate": 1233,
+                            "biography": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+                        },
+                        "stars": ["John Travolta"," Uma Thurman", Samuel L. Jackson"]
+                      }
+                    </code>
+                </pre>
+            </p>
+            <p><strong>Response Body: </strong>Response Body:
+                <pre><code class="language-json">
+                    {
+                        "id": 8,
+                        "title": "Pulp Fiction",
+                        "year": 1994,
+                        "genre": ["Crime", "Drama"],
+                        "director": {
+                            "name": "Quentin Tarantino",
+                            "birthdate": 1233,
+                            "biography": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+                        },
+                        "stars": ['John Travolta', 'Uma Thurman', 'Samuel L. Jackson'],
+                    }
+                    </code>
+                </pre>
+            </p>
+        </li>
+        <li>
+            <h2>DELETE user</h2>
+            <p><strong>End point: </strong> "/users/:[username]"</p>
+            <p><strong>HTTP Call Method: </strong>DELETE</p>
+            <p><strong>Request Body: </strong>None</p>
+            <p><strong>Response Body: </strong>User with [username] is deleted.</p>
+        </li>
+    </ul>
+    
+</body>
+
+</html>
