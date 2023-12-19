@@ -11,6 +11,10 @@ app.use(
   })
 );
 
+let auth = require('./auth')(app);  //(app) argument allows Express to be available in auth.js
+const passport = require('passport');
+require('./passport');
+
 //Require Mongoose package, "models.js" and Mongoose Models
 const mongoose = require("mongoose");
 const Models = require("./models");
