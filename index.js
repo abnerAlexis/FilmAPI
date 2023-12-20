@@ -11,6 +11,10 @@ app.use(
   })
 );
 
+//Cross-Origin-Resource-Sharing has to be placed before 'auth'
+const cors = require('cors');
+app.use(cors());
+
 let auth = require('./auth')(app);  //(app) argument allows Express to be available in auth.js
 const passport = require('passport');
 require('./passport');

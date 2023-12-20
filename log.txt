@@ -208,3 +208,7 @@
 ::1 - - [19/Dec/2023:04:58:52 +0000] "DELETE /users/6580ff27343cee610ef9b597?Username=Leila_CrownRose&Password=leilapass HTTP/1.1" 401 - "-" "PostmanRuntime/7.36.0"
 ::1 - - [19/Dec/2023:04:59:09 +0000] "DELETE /users/6580ff27343cee610ef9b597?Username=Leila_CrownRose&Password=leilapass HTTP/1.1" 400 17 "-" "PostmanRuntime/7.36.0"
 ::1 - - [19/Dec/2023:05:00:24 +0000] "DELETE /users/6580ff27343cee610ef9b597?Username=Leila_CrownRose&Password=leilapass HTTP/1.1" 400 17 "-" "PostmanRuntime/7.36.0"
+::1 - - [19/Dec/2023:05:06:07 +0000] "POST /movies HTTP/1.1" 201 164 "-" "PostmanRuntime/7.36.0"
+::1 - - [19/Dec/2023:05:11:08 +0000] "GET /movies/genre/The%20Lord%20of%20the%20Rings:%20The%20Fellowship%20of%20the%20Ring HTTP/1.1" 200 54 "-" "PostmanRuntime/7.36.0"
+::1 - - [19/Dec/2023:05:12:21 +0000] "GET /users HTTP/1.1" 200 2080 "-" "PostmanRuntime/7.36.0"
+::1 - - [19/Dec/2023:05:12:50 +0000] "DELETE /users/6580ff27343cee610ef9b597?Username=Leila_CrownRose&Password=leilapass HTTP/1.1" 200 37 "-" "PostmanRuntime/7.36.0"
