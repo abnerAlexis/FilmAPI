@@ -221,6 +221,7 @@ app.get("/users", passport.authenticate('jwt', { session: false }),  async(req, 
 
 //Add New User to users list
 app.post('/users', async (req, res) => {
+  let hashedPassword = Users.hashPassword(req.body.Password);
   await Users.findOne({ Username: req.body.Username })
     .then((user) => {
       if (user) {
@@ -229,7 +230,7 @@ app.post('/users', async (req, res) => {
         Users
           .create({
             Username: req.body.Username,
-            Password: req.body.Password,
+            Password: hashedPassword,
             Birthday: req.body.Birthday,
             Email: req.body.Email,
             FavoriteMovies: []
