@@ -28,6 +28,9 @@ app.use(cors({
   }
 }));
 
+//importing express-validator
+const {check, validationResult} = require('express-validator');
+
 let auth = require('./auth')(app);  //(app) argument allows Express to be available in auth.js
 const passport = require('passport');
 require('./passport');
@@ -220,12 +223,21 @@ app.get("/users", passport.authenticate('jwt', { session: false }),  async(req, 
 });
 
 //Add New User to users list
-app.post('/users', async (req, res) => {
+app.post('/users', [
+  check('Username', 'Username is required').isLength({min:5}),
+  check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
+  check('Password', 'Password is required').not().isEmpty(),
+  check('Email', 'Email does not appear to be valid.').isEmail(),
+], async (req, res) => {
   let hashedPassword = Users.hashPassword(req.body.Password);
+  
+  //Checks whether a user with the same username exists.
   await Users.findOne({ Username: req.body.Username })
     .then((user) => {
+
+      //If a user with the same username found;
       if (user) {
-        return res.status(400).send(req.body.Username + 'already exists');
+        return res.status(400).send(req.body.Username + 'username already exists');
       } else {
         Users
           .create({
