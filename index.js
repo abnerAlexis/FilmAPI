@@ -229,6 +229,14 @@ app.post('/users', [
   check('Password', 'Password is required').not().isEmpty(),
   check('Email', 'Email does not appear to be valid.').isEmail(),
 ], async (req, res) => {
+
+  //Check the validation object for errors
+  let errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    return res.status(422).json({errors: errors.array()});
+  }
+
   let hashedPassword = Users.hashPassword(req.body.Password);
   
   //Checks whether a user with the same username exists.
@@ -245,7 +253,7 @@ app.post('/users', [
             Password: hashedPassword,
             Birthday: req.body.Birthday,
             Email: req.body.Email,
-            FavoriteMovies: []
+            FavoriteMovies: [req.params.movieid]
           })
           .then((user) => { res.status(201).json(user) })
           .catch((error) => {
@@ -305,15 +313,23 @@ app.delete('/users/:Username/movies/:movieid', passport.authenticate('jwt', { se
 });
 
 //Update users password and email
-app.put('/users/:Username', passport.authenticate('jwt', { session: false }), async (req, res) => {
+app.put('/users/:Username', [
+  check('Password', 'New password is required.').isLength({min: 5}),
+  check('Email', 'Email does not appear to be valid').isEmail(),
+], passport.authenticate('jwt', { session: false }), async (req, res) => {
+
+  //checks the validation object for errors
+  let errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    return res.status(422).json({errors: errors.array()});
+  }
 
   //CONDITION TO CHECK
-
   if (req.user.Username !== req.params.Username) {
     return res.status(400).send('Permission denied');
-  }
-  //CONDITION ENDS
-
+  }  //CONDITION ENDS
+  
   await Users.findOneAndUpdate({ Username: req.params.Username }, {
     $set:
     {
@@ -348,6 +364,11 @@ app.delete('/users/:id', passport.authenticate('jwt', { session: false }), async
     });
 });
 
-app.listen(8080, () => {
-  console.log("The app is listening on port 8080.");
+// app.listen(8080, () => {
+//   console.log("The app is listening on port 8080.");
+// });
+
+const port = process.env.PORT || 8080;
+app.listen(port, '0.0.0.0', () => {
+  console.log('Listening on Port ' + port);
 });
