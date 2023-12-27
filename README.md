@@ -1,63 +1,33 @@
-# Setting up an Express Project
-1. Install
-```
-    npm init -y
-    npm install express --save
-    npm install nodemon --save-dev  //will be used in development mode
-```
- 2. Create a gitignore file
- 3. Create the core file server.js and change the js file name in package.json from index.js to server.js
- 4. Build the express server
- ```
-    const express = require('express');
-    const app = express();  
+# <span style="color: green;">FilmAPI</span> 
+Visit @ https://young-reef-75254-12f86fe282e8.herokuapp.com/
 
-//  Endpoints come in here
+This server-side module drives a web application, granting users access to comprehensive details about different films, directors, and genres. Users have the capability to register, modify their personal information, remove their profiles, and curate lists containing their preferred movies.
 
-    app.listen(8080, () => {
-        console.log('Listening at port 8080.');
-    });
- ```
- 5. Set up an <strong style="color:lightgreen">endpoint</strong> to begin with. This should be set before listen method.
- ```
-    app.get('/', (req, res) => {
-        res.send('');
-    })
- ```
+## 🛠️ <span style="color: green;">Technology Used</span>
+- **Node.js** - Server-side JavaScript runtime designed for scalability.
+- **Express.js** - Web framework for Node.js, streamlining web app development.
+- **MongoDB** - Object modeling tool.
+- **Mongoose** : Node library for interfacing with MongoDB databases.
+- **JWT (JSON Web Token)** : For secure transmitting information between parties.
+- **Postman** : To test the API.
+- **Heroku** : Cloud platform for deploying and managing the application.
 
- 6. In package.json, add the  following line in scripts
- ```
-     "start": "node server.js",
-    "dev": "nodemon server.js"
- ```
- so it would look like this;
- ```
-    "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js",
-    "dev": "nodemon server.js"
-  },
- ```
- ## why start: 
- "start": "node server.js" starts running the server when you type on termial the following
- ```
-    npm start
- ```
+## ⚙️ <span style="color: green;">Endpoints</span>
 
-  ## why nodemon: 
- "dev": "nodemon server.js" allow the server refresh after changes instead of restarting the server after each change. 
-
- Type the following  to start on terminal
- ```
-    npm run dev
- ```
-
- After this when you make changes, server will compile itself thanks to nodemon.
- 7. Install uuid and body-parser
- ```
-   npm install uuid
-   npm install body-parser
- ```
-
- 8. From vscode extentions, find <strong style="color:lightgreen">Thunder Client</strong> and add it to your tools. This allows you to test the endpoints you created. Just lioke <strong style="color:lightgreen">Postman</strong>.
- 
+- `/` - Navigates to the 'Welcome Page'. 
+- `/movies` - Returns all listed movies using HTTP call method `GET`.
+- `/movies` - Adds a new movie using HTTP call method `POST`.
+- `/movies/:Title` - Returns data about a movie by title.
+- `/movies/:Title/actors/:actorid` - Adds an actor to a movies actors list.
+- `/movies/directorname/:Title` - Returns information about a director by the title of a movie.
+- `/movies/genre/[Genre]` - Returns data about a genre by title.
+- `/actors` - Returns the all actors listed.
+- `/actors` - Adds new actor to the actors list via HTTP call method `POST`.
+- `/users` - Returns the users list. This should be limited with admin password.
+- `/users` - Adds a new users to the users list via HTTP `POST` method.
+-`/users/:Username` - Gets data about a single user by username.
+- `/users/:Username/movies/:movieid` - Allows users to add a movie to their list of favorites by movieID.
+- `/users/:Username/movies/:movieid` - Removes a movie from the user's favorite movies list via HTTP call method `DELETE`.
+- `/users/:Username` - Allows users to update their username and password.
+- `/users/:id` - Deletes existing user's name.
+- `/login` - Allows users to access to their profiles.
