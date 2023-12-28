@@ -292,3 +292,6 @@
 ::1 - - [22/Dec/2023:03:36:42 +0000] "DELETE /users/%226583b6239f2a165e96242b21 HTTP/1.1" 500 124 "-" "PostmanRuntime/7.36.0"
 ::1 - - [22/Dec/2023:03:37:02 +0000] "DELETE /users/6583b6239f2a165e96242b21 HTTP/1.1" 200 37 "-" "PostmanRuntime/7.36.0"
 ::1 - - [26/Dec/2023:20:43:21 +0000] "GET /users HTTP/1.1" 200 1558 "-" "PostmanRuntime/7.36.0"
+127.0.0.1 - - [28/Dec/2023:01:28:30 +0000] "GET / HTTP/1.1" 200 25 "-" "PostmanRuntime/7.36.0"
+127.0.0.1 - - [28/Dec/2023:01:30:41 +0000] "GET /movies HTTP/1.1" 401 - "-" "PostmanRuntime/7.36.0"
+127.0.0.1 - - [28/Dec/2023:01:36:39 +0000] "GET /movies HTTP/1.1" 200 11534 "-" "PostmanRuntime/7.36.0"
