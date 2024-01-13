@@ -67,7 +67,7 @@ app.get("/", (req, res) => {
 });
 
 // http://localhost:8080/movies displays the movies list in JSON format
-app.get("/movies", passport.authenticate('jwt', { session: false }), async (req, res) => {
+app.get("/movies", async (req, res) => {
   
   await Movies.find()
     .then((movies) => {
