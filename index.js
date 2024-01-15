@@ -1,3 +1,4 @@
+require('dotenv').config()
 const express = require("express"),
   morgan = require("morgan"),
   fs = require("fs"),
@@ -59,7 +60,7 @@ const accessLogStream = fs.createWriteStream(path.join(__dirname, 'log.txt'), { 
 //setting up the logger
 app.use(morgan('combined', { stream: accessLogStream }));
 
-const Movies = Models.Movie;
+const Movies = Models.Movie
 const Users = Models.User;
 const Actors = Models.Actor;
 
@@ -315,7 +316,26 @@ app.delete('/users/:Username/movies/:movieid', passport.authenticate('jwt', { se
       res.status(500).send('Error' + error);
     });
 });
-
+//===============================================================
+//Update movie ImageURL
+app.put('/movies/:movieid', async(req, res) => {
+    await Movies.findOneAndUpdate({Movie: req.params.movieid}, {
+      $set:
+      {
+        ImageURL: req.body.ImageURL
+      }
+    },
+      {new: true}
+      .then(updatedMovie => {
+        res.json(updatedMovie);
+      })
+      .catch(error => {
+        console.error(error);
+        res.status(500).send('Error: ' + error)
+      })
+    )
+})
+//===============================================================
 //Update users password and email
 app.put('/users/:Username', [
   check('Password', 'New password is required.').isLength({min: 5}),
