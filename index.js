@@ -42,16 +42,16 @@ const mongoose = require("mongoose");
 const Models = require("./models");
 
 //Connect Mongoose to
-// mongoose
-//   .connect("mongodb://localhost:27017/filmDB") //https://stackoverflow.com/questions/77415433/how-to-resolve-this-mongodb-warning-issue-in-node-js-and-how-to-traceback-about
-//   .then(() => {
-//     console.log("DB connection successful.");
-//   })
-//   .catch((err) => {
-//     console.log(`DB connection error:${err}`);
-//   });
+mongoose
+  .connect("mongodb://localhost:27017/filmDB") //https://stackoverflow.com/questions/77415433/how-to-resolve-this-mongodb-warning-issue-in-node-js-and-how-to-traceback-about
+  .then(() => {
+    console.log("DB connection successful.");
+  })
+  .catch((err) => {
+    console.log(`DB connection error:${err}`);
+  });
 
-mongoose.connect( process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+//mongoose.connect( process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true });
 
 
 //creating a write stream in append mode, and a txt file in root dir.
@@ -318,22 +318,26 @@ app.delete('/users/:Username/movies/:movieid', passport.authenticate('jwt', { se
 });
 //===============================================================
 //Update movie ImageURL
-app.put('/movies/:movieid', async(req, res) => {
-    await Movies.findOneAndUpdate({Movie: req.params.movieid}, {
+app.put('/movies/image/:title', async(req, res) => {
+  console.log("Title: " + req.params.title)
+    await Movies.findOneAndUpdate({Title: req.params.title}, {
       $set:
       {
         ImageURL: req.body.ImageURL
       }
     },
-      {new: true}
-      .then(updatedMovie => {
-        res.json(updatedMovie);
-      })
-      .catch(error => {
-        console.error(error);
-        res.status(500).send('Error: ' + error)
-      })
-    )
+    { new: true }) // This line makes sure that the updated document is returned
+    .then(movie => {
+      if (!movie) {
+        res.status(400).send(req.params.title + ' was not found');
+      } else {
+        res.status(200).send(req.params.title + ' is updated.');
+      }
+    })
+    .catch((err) => {
+      console.error(error);
+      res.status(500).send('Error: ' + error)
+    })
 })
 //===============================================================
 //Update users password and email
