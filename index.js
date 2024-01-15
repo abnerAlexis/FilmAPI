@@ -42,16 +42,16 @@ const mongoose = require("mongoose");
 const Models = require("./models");
 
 //Connect Mongoose to
-mongoose
-  .connect("mongodb://localhost:27017/filmDB") //https://stackoverflow.com/questions/77415433/how-to-resolve-this-mongodb-warning-issue-in-node-js-and-how-to-traceback-about
-  .then(() => {
-    console.log("DB connection successful.");
-  })
-  .catch((err) => {
-    console.log(`DB connection error:${err}`);
-  });
+// mongoose
+//   .connect("mongodb://localhost:27017/filmDB") //https://stackoverflow.com/questions/77415433/how-to-resolve-this-mongodb-warning-issue-in-node-js-and-how-to-traceback-about
+//   .then(() => {
+//     console.log("DB connection successful.");
+//   })
+//   .catch((err) => {
+//     console.log(`DB connection error:${err}`);
+//   });
 
-//mongoose.connect( process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect( process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true });
 
 
 //creating a write stream in append mode, and a txt file in root dir.
