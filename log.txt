@@ -332,3 +332,8 @@
 127.0.0.1 - - [15/Jan/2024:05:01:19 +0000] "GET /movies/leo/65791965b805aa59c51e1b2a HTTP/1.1" 200 4 "-" "PostmanRuntime/7.36.0"
 127.0.0.1 - - [15/Jan/2024:05:03:39 +0000] "PUT /movies/image/The%20Shawshank%20Redemption HTTP/1.1" 200 21 "-" "PostmanRuntime/7.36.0"
 127.0.0.1 - - [15/Jan/2024:05:04:47 +0000] "PUT /movies/image/The%20Shawshank%20Redemption HTTP/1.1" 200 36 "-" "PostmanRuntime/7.36.0"
+127.0.0.1 - - [17/Jan/2024:04:39:41 +0000] "GET / HTTP/1.1" 304 - "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+127.0.0.1 - - [17/Jan/2024:04:39:47 +0000] "GET /movies HTTP/1.1" 200 11510 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+127.0.0.1 - - [17/Jan/2024:16:53:57 +0000] "GET / HTTP/1.1" 200 25 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:121.0) Gecko/20100101 Firefox/121.0"
+127.0.0.1 - - [17/Jan/2024:16:53:57 +0000] "GET /favicon.ico HTTP/1.1" 404 150 "http://localhost:8080/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:121.0) Gecko/20100101 Firefox/121.0"
+127.0.0.1 - - [17/Jan/2024:16:54:09 +0000] "GET /movies/ HTTP/1.1" 200 11510 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:121.0) Gecko/20100101 Firefox/121.0"
