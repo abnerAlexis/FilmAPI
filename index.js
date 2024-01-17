@@ -475,5 +475,6 @@ app.delete(
 
 const port = process.env.PORT || 8080;
 app.listen(port, "0.0.0.0", () => {
+  // console.log(process.env.PORT) //Prints 'undefined'
   console.log("Listening on Port " + port);
 });
