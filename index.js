@@ -272,7 +272,7 @@ app.get(
 app.post(
   "/users",
   [
-    check("Username", "Username is required").isLength({ min: 5 }),
+    check("Username", "Username is required").isLength({ min: 3 }),
     check(
       "Username",
       "Username contains non alphanumeric characters - not allowed."
@@ -412,7 +412,7 @@ app.put("/movies/image/:title", async (req, res) => {
 app.put(
   "/users/:Username",
   [
-    check("Password", "New password is required.").isLength({ min: 5 }),
+    check("Password", "Password should be at least 5 characters.").isLength({ min: 5 }),
     check("Email", "Email does not appear to be valid").isEmail(),
   ],
   passport.authenticate("jwt", { session: false }),
