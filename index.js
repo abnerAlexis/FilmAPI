@@ -55,10 +55,13 @@ const Models = require("./models");
 //     console.log(`DB connection error:${err}`);
 //   });
 
-mongoose.connect(process.env.CONNECTION_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+mongoose.connect(process.env.CONNECTION_URI)
+  .then(() => {
+    console.log("DB connection is successful.");
+  })
+  .catch(err => {
+    console.log(`DB conndection error: ${err}`);
+  })
 
 //creating a write stream in append mode, and a txt file in root dir.
 const accessLogStream = fs.createWriteStream(path.join(__dirname, "log.txt"), {
@@ -475,6 +478,5 @@ app.delete(
 
 const port = process.env.PORT || 8080;
 app.listen(port, "0.0.0.0", () => {
-  // console.log(process.env.PORT) //Prints 'undefined'
   console.log("Listening on Port " + port);
 });
