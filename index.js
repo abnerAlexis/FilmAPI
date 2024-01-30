@@ -412,45 +412,45 @@ app.put("/movies/image/:title", async (req, res) => {
 //===============================================================
 
 //Update users password and email
-app.put(
-  "/users/:Username",
-  [
-    check("Password", "Password should be at least 5 characters.").isLength({ min: 5 }),
-    check("Email", "Email does not appear to be valid").isEmail(),
-  ],
-  passport.authenticate("jwt", { session: false }),
-  async (req, res) => {
-    //checks the validation object for errors
-    let errors = validationResult(req);
+// app.put(
+//   "/users/:Username",
+//   [
+//     check("Password", "Password should be at least 5 characters.").isLength({ min: 5 }),
+//     check("Email", "Email does not appear to be valid").isEmail(),
+//   ],
+//   passport.authenticate("jwt", { session: false }),
+//   async (req, res) => {
+//     //checks the validation object for errors
+//     let errors = validationResult(req);
 
-    if (!errors.isEmpty()) {
-      return res.status(422).json({ errors: errors.array() });
-    }
+//     if (!errors.isEmpty()) {
+//       return res.status(422).json({ errors: errors.array() });
+//     }
 
-    //CONDITION TO CHECK
-    if (req.user.Username !== req.params.Username) {
-      return res.status(400).send("Permission denied");
-    } //CONDITION ENDS
+//     //CONDITION TO CHECK
+//     if (req.user.Username !== req.params.Username) {
+//       return res.status(400).send("Permission denied");
+//     } //CONDITION ENDS
 
-    await Users.findOneAndUpdate(
-      { Username: req.params.Username },
-      {
-        $set: {
-          Password: req.body.Password,
-          Email: req.body.Email,
-        },
-      },
-      { new: true }
-    ) // This line makes sure that the updated document is returned
-      .then((updatedUser) => {
-        res.json(updatedUser);
-      })
-      .catch((err) => {
-        console.error(error);
-        res.status(500).send("Error: " + error);
-      });
-  }
-);
+//     await Users.findOneAndUpdate(
+//       { Username: req.params.Username },
+//       {
+//         $set: {
+//           Password: req.body.Password,
+//           Email: req.body.Email,
+//         },
+//       },
+//       { new: true }
+//     ) // This line makes sure that the updated document is returned
+//       .then((updatedUser) => {
+//         res.json(updatedUser);
+//       })
+//       .catch((err) => {
+//         console.error(error);
+//         res.status(500).send("Error: " + error);
+//       });
+//   }
+// );==================================================================================
 
 // Delete a user by userid
 // app.delete(
@@ -491,6 +491,54 @@ app.delete(
     });
   }
 );
+
+
+//===============================================================
+
+//Update users username, password, email and birthday
+app.put(
+  "/users/:Username",
+  [
+    check("Username", "Username should be at least 5 characters").isLength({min:5}),
+    check("Password", "Password should be at least 5 characters.").isLength({ min: 5 }),
+    check("Email", "Email does not appear to be valid").isEmail(),
+    check("Birthday", "Birthday is not valid.").isDate(),
+  ],
+  passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
+    //checks the validation object for errors
+    let errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return res.status(422).json({ errors: errors.array() });
+    }
+
+    //CONDITION TO CHECK
+    if (req.user.Username !== req.params.Username) {
+      return res.status(400).send("Permission denied");
+    } //CONDITION ENDS
+
+    await Users.findOneAndUpdate(
+      { Username: req.params.Username },
+      {
+        $set: {
+          Username: req.body.Username,
+          Password: req.body.Password,
+          Email: req.body.Email,
+          Birthday: req.body.Birthday,
+        },
+      },
+      { new: true }
+    ) // This line makes sure that the updated document is returned
+      .then((updatedUser) => {
+        res.json(updatedUser);
+      })
+      .catch((err) => {
+        console.error(error);
+        res.status(500).send("Error: " + error);
+      });
+  }
+);//============================================================================
 
 // app.listen(8080, () => {
 //   console.log("The app is listening on port 8080.");
