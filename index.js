@@ -413,10 +413,12 @@ app.put("/movies/image/:title", async (req, res) => {
 
 //Update users password and email
 app.put(
-  "/users/:Username",
+  "/users/update/:Username",
   [
+    check("Username", "Username should be at least 5 characters.").isLength({ min: 5 }),
     check("Password", "Password should be at least 5 characters.").isLength({ min: 5 }),
-    check("Email", "Email does not appear to be valid").isEmail(),
+    check("Email", "Email does not appear to be valid.").isEmail(),
+    check("Birthday", "Birthday is not valid.").isDate()
   ],
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
@@ -436,8 +438,10 @@ app.put(
       { Username: req.params.Username },
       {
         $set: {
+          Username: req.body.Username,
           Password: req.body.Password,
           Email: req.body.Email,
+          Birthday: req.body.Birthday
         },
       },
       { new: true }
