@@ -472,6 +472,26 @@ app.delete(
   }
 );
 
+// // Delete a user by username
+app.delete(
+  "/users/:Username",
+  passport.authenticate("jwt", { session: false}),
+  async(req, res) => {
+    await Users.findOneAndDelete({Username: req.params.Username})
+    .then(user => {
+      if (!user) {
+        res.status(400).send(req.params.Username + "was not found.");
+      } else {
+        res.status(200).send(req.params.Username + "is deleted.");
+      }
+    })
+    .catch(err => {
+      console.error(err);
+      res.status(500).send("Error: " + err);
+    })
+  }
+);
+
 // app.listen(8080, () => {
 //   console.log("The app is listening on port 8080.");
 // });
