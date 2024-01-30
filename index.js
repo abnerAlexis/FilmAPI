@@ -480,9 +480,9 @@ app.delete(
     await Users.findOneAndDelete({Username: req.params.Username})
     .then(user => {
       if (!user) {
-        res.status(400).send(req.params.Username + "was not found.");
+        res.status(400).send(req.params.Username + " was not found.");
       } else {
-        res.status(200).send(req.params.Username + "is deleted.");
+        res.status(200).send(req.params.Username + " is deleted.");
       }
     })
     .catch(err => {
