@@ -405,8 +405,8 @@ app.put("/movies/image/:title", async (req, res) => {
       }
     })
     .catch((err) => {
-      console.error(error);
-      res.status(500).send("Error: " + error);
+      console.error(err);
+      res.status(500).send("Error: " + err);
     });
 });
 //===============================================================
@@ -497,7 +497,7 @@ app.delete(
 
 //Update users username, password, email and birthday
 app.put(
-  "/users/:Username",
+  "/users/update/:Username",
   [
     check("Username", "Username should be at least 5 characters.").isLength({ min: 5 }),
     check("Password", "Password should be at least 5 characters.").isLength({ min: 5 }),
@@ -506,37 +506,39 @@ app.put(
   ],
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
-    try {
-      const errors = validationResult(req);
-      if (!errors.isEmpty()) {
-        return res.status(422).json({ errors: errors.array() });
-      }
+    //checks the validation object for errors
+    let errors = validationResult(req);
 
-      if (req.user.Username !== req.params.Username) {
-        return res.status(403).send("You are not allowed to update another user's information.");
-      }
-
-      const updatedUser = await Users.findOneAndUpdate(
-        { Username: req.params.Username },
-        {
-          $set: {
-            Username: req.body.Username,
-            Password: req.body.Password,
-            Email: req.body.Email,
-            Birthday: req.body.Birthday,
-          },
-        },
-        { new: true }
-      );
-
-      res.json(updatedUser);
-    } catch (err) {
-      console.error(err);
-      res.status(500).send("Error: " + err.message);
+    if (!errors.isEmpty()) {
+      return res.status(422).json({ errors: errors.array() });
     }
+
+    //CONDITION TO CHECK
+    if (req.user.Username !== req.params.Username) {
+      return res.status(400).send("Permission denied");
+    } //CONDITION ENDS
+
+    await Users.findOneAndUpdate(
+      { Username: req.params.Username },
+      {
+        $set: {
+          Username: req.body.Username,
+          Password: req.body.Password,
+          Email: req.body.Email,
+          Birthday: req.body.Birthday,
+        },
+      },
+      { new: true }
+    ) // This line makes sure that the updated document is returned
+      .then((updatedUser) => {
+        res.json(updatedUser);
+      })
+      .catch((err) => {
+        console.error(err);
+        res.status(500).send("Error: " + err);
+      });
   }
-);
-//============================================================================
+);//============================================================================
 
 // app.listen(8080, () => {
 //   console.log("The app is listening on port 8080.");
