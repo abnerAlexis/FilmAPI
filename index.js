@@ -385,7 +385,7 @@ app.delete(
   }
 );
 //===============================================================
-//Update movie ImageURL
+//Update movie ImageURL==For Admin Use
 app.put("/movies/image/:title", async (req, res) => {
   console.log("Title: " + req.params.title);
   await Movies.findOneAndUpdate(
@@ -415,8 +415,8 @@ app.put("/movies/image/:title", async (req, res) => {
 app.put(
   "/users/update/:Username",
   [
-    check("Username", "Username should be at least 5 characters.").isLength({ min: 5 }),
-    check("Password", "Password should be at least 5 characters.").isLength({ min: 5 }),
+    check("Username", "Username should be at least 5 characters.").isLength({ min: 3 }),
+    check("Password", "Password should be at least 5 characters.").isLength({ min: 3 }),
     check("Email", "Email does not appear to be valid.").isEmail(),
     check("Birthday", "Birthday is not valid.").isDate()
   ],

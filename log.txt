@@ -353,3 +353,4 @@
 127.0.0.1 - - [30/Jan/2024:04:56:50 +0000] "GET / HTTP/1.1" 304 - "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:121.0) Gecko/20100101 Firefox/121.0"
 127.0.0.1 - - [30/Jan/2024:04:57:00 +0000] "GET /users HTTP/1.1" 401 - "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:121.0) Gecko/20100101 Firefox/121.0"
 127.0.0.1 - - [30/Jan/2024:04:58:01 +0000] "PUT /users/BobJenkins HTTP/1.1" 422 313 "-" "PostmanRuntime/7.36.1"
+127.0.0.1 - - [03/Feb/2024:03:28:57 +0000] "GET /users/emily_white HTTP/1.1" 200 4 "-" "PostmanRuntime/7.36.1"
