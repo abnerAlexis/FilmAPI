@@ -15,7 +15,7 @@ app.use(
 //Cross-Origin-Resource-Sharing has to be placed before 'auth'
 const cors = require("cors");
 let allowedOrigins = [
-  "http://localhost:8080",                     
+  "http://localhost:8080",
   "http://localhost:1234"
 ];
 
@@ -81,18 +81,18 @@ app.get("/", (req, res) => {
 
 // http://localhost:8080/movies displays the movies list in JSON format
 app.get(
-        "/movies", 
-        passport.authenticate('jwt', { session: false }), 
-        async (req, res) => {
-  await Movies.find()
-    .then(movies => {
-      res.status(200).json(movies);
-    })
-    .catch((err) => {
-      console.error(err);
-      res.status(500).send("Error: " + err);
-    });
-});
+  "/movies",
+  passport.authenticate('jwt', { session: false }),
+  async (req, res) => {
+    await Movies.find()
+      .then(movies => {
+        res.status(200).json(movies);
+      })
+      .catch((err) => {
+        console.error(err);
+        res.status(500).send("Error: " + err);
+      });
+  });
 
 //Add new movie
 app.post(
@@ -307,7 +307,6 @@ app.post(
             Password: hashedPassword,
             Birthday: req.body.Birthday,
             Email: req.body.Email,
-            FavoriteMovies: [req.params.movieid],
           })
             .then((user) => {
               res.status(201).json(user);
@@ -479,20 +478,20 @@ app.put(
 // Delete a user by username
 app.delete(
   "/users/:Username",
-  passport.authenticate("jwt", { session: false}),
-  async(req, res) => {
-    await Users.findOneAndDelete({Username: req.params.Username})
-    .then(user => {
-      if (!user) {
-        res.status(400).send(req.params.Username + " was not found.");
-      } else {
-        res.status(200).send(req.params.Username + " is deleted.");
-      }
-    })
-    .catch(err => {
-      console.error(err);
-      res.status(500).send("Error: " + err);
-    });
+  passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
+    await Users.findOneAndDelete({ Username: req.params.Username })
+      .then(user => {
+        if (!user) {
+          res.status(400).send(req.params.Username + " was not found.");
+        } else {
+          res.status(200).send(req.params.Username + " is deleted.");
+        }
+      })
+      .catch(err => {
+        console.error(err);
+        res.status(500).send("Error: " + err);
+      });
   }
 );
 
