@@ -17,6 +17,7 @@ const cors = require("cors");
 let allowedOrigins = [
   "http://localhost:8080",
   "http://localhost:1234",
+  "http://localhost:4200",
   "https://film-flix-aa36.netlify.app",
 ];
 
