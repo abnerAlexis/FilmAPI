@@ -364,6 +364,26 @@ app.post(
   }
 );
 
+//DELETE A MOVIE BY A TITLE==================================
+app.delete(
+  "/movies/:Title",
+  passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
+    await Users.findOneAndDelete({ Title: req.params.Title})
+      .then((movie) => {
+        if (movie) {
+          res.status(400).send(req.params.Title + " was not found");
+        } else {
+          res.status(200).send(req.params.Title+ " was deleted.");
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+        res.status(500).send("Error: " + err);
+      });
+  }
+);
+
 // Remove a movie from a user's list of favorites
 app.delete(
   "/users/:Username/movies/:movieid",
