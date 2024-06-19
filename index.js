@@ -369,12 +369,12 @@ app.delete(
   "/movies/:Title",
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
-    await Users.findOneAndDelete({ Title: req.params.Title})
+    await Movies.findOneAndDelete({ Title: req.params.Title })
       .then((movie) => {
         if (movie) {
-          res.status(400).send(req.params.Title + " was not found");
+          res.status(200).send(req.params.Title + " was deleted.");
         } else {
-          res.status(200).send(req.params.Title+ " was deleted.");
+          res.status(404).send(req.params.Title + " was not found");
         }
       })
       .catch((err) => {
