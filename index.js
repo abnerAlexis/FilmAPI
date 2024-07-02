@@ -177,7 +177,7 @@ app.post(
 
 //Get director (bio, birth year, death year) by title.
 app.get(
-  "/movies/directorname/:Title",
+  "/movies/director/:Title",
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
     await Movies.findOne({ Title: req.params.Title })
