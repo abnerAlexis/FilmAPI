@@ -19,6 +19,7 @@ let allowedOrigins = [
   "http://localhost:1234",
   "http://localhost:4200",
   "https://film-flix-aa36.netlify.app",
+  "https://abneralexis.github.io/filmFlix-Angular-client"
 ];
 
 app.use(
