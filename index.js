@@ -12,7 +12,9 @@ app.use(
   })
 );
 
-//Cross-Origin-Resource-Sharing has to be placed before 'auth'
+/**
+ * Cross-Origin-Resource-Sharing has to be placed before 'auth'
+ */
 const cors = require("cors");
 let allowedOrigins = [
   "http://localhost:8080",
@@ -71,7 +73,9 @@ const accessLogStream = fs.createWriteStream(path.join(__dirname, "log.txt"), {
   flags: "a",
 });
 
-//setting up the logger
+/**
+ * setting up the logger
+ */
 app.use(morgan("combined", { stream: accessLogStream }));
 
 const Movies = Models.Movie;
@@ -82,7 +86,9 @@ app.get("/", (req, res) => {
   res.send("Welcome to the movie app!");
 });
 
-// http://localhost:8080/movies displays the movies list in JSON format
+/**
+ * http://localhost:8080/movies displays the movies list in JSON format
+ */
 app.get(
   "/movies",
   passport.authenticate('jwt', { session: false }),
@@ -97,7 +103,9 @@ app.get(
       });
   });
 
-//Add new movie
+/**
+ * Add new movie
+ */
 app.post(
   "/movies",
   passport.authenticate("jwt", { session: false }),
@@ -138,7 +146,9 @@ app.post(
   }
 );
 
-// Get a movie by title
+/**
+ * Get a movie by title
+ */
 app.get(
   "/movies/:Title",
   passport.authenticate("jwt", { session: false }),
@@ -154,7 +164,9 @@ app.get(
   }
 );
 
-//Add an actor to a movie's actors list
+/**
+ * Add an actor to a movie's actors list
+ */
 app.post(
   "/movies/:Title/actors/:actorid",
   passport.authenticate("jwt", { session: false }),
@@ -176,7 +188,9 @@ app.post(
   }
 );
 
-//Get director (bio, birth year, death year) by title.
+/**
+ * Get director (bio, birth year, death year) by title.
+ */
 app.get(
   "/movies/director/:Title",
   passport.authenticate("jwt", { session: false }),
@@ -193,7 +207,9 @@ app.get(
   }
 );
 
-//Get genre by title
+/**
+ * Get genre by title
+ */
 app.get(
   "/movies/genre/:Title",
   passport.authenticate("jwt", { session: false }),
@@ -210,7 +226,9 @@ app.get(
   }
 );
 
-//Get actors list
+/**
+ * Get actors list
+ */
 app.get(
   "/actors",
   passport.authenticate("jwt", { session: false }),
@@ -226,7 +244,9 @@ app.get(
   }
 );
 
-//Add New Actor to actors list
+/**
+ * Add New Actor to actors list
+ */
 app.post(
   "/actors",
   passport.authenticate("jwt", { session: false }),
@@ -258,7 +278,9 @@ app.post(
   }
 );
 
-//Get users list ===> Only Admin should see this?
+/**
+ * Get users list ===> Only Admin should see this?
+ */
 app.get(
   "/users",
   passport.authenticate("jwt", { session: false }),
@@ -274,7 +296,9 @@ app.get(
   }
 );
 
-//Add New User to users list
+/**
+ * Add New User to users list
+ */
 app.post(
   "/users",
   [
@@ -327,7 +351,9 @@ app.post(
   }
 );
 
-// Get a user by username ======> Only Admin?
+/**
+ * Get a user by username ======> Only Admin?
+ */
 app.get(
   "/users/:Username",
   passport.authenticate("jwt", { session: false }),
@@ -343,7 +369,9 @@ app.get(
   }
 );
 
-// Add a movie to a user's list of favorites
+/**
+ * Add a movie to a user's list of favorites
+ */
 app.post(
   "/users/:Username/movies/:movieid",
   passport.authenticate("jwt", { session: false }),
@@ -365,7 +393,9 @@ app.post(
   }
 );
 
-//DELETE A MOVIE BY A TITLE==================================
+/**
+ * Delete a movie by title
+ */
 app.delete(
   "/movies/:Title",
   passport.authenticate("jwt", { session: false }),
@@ -385,7 +415,9 @@ app.delete(
   }
 );
 
-// Remove a movie from a user's list of favorites
+/**
+ * Remove a movie from a user's list of favorites
+ */
 app.delete(
   "/users/:Username/movies/:movieid",
   passport.authenticate("jwt", { session: false }),
@@ -406,8 +438,10 @@ app.delete(
       });
   }
 );
-//===============================================================
-//Update movie ImageURL==For Admin Use
+
+/**
+ * Update movie ImageURL==For Admin Use
+ */
 app.put("/movies/image/:title", async (req, res) => {
   console.log("Title: " + req.params.title);
   await Movies.findOneAndUpdate(
@@ -431,9 +465,10 @@ app.put("/movies/image/:title", async (req, res) => {
       res.status(500).send("Error: " + error);
     });
 });
-//===============================================================
 
-//Update users password and email
+/**
+ * Update user data
+ */
 app.put(
   "/users/update/:Username",
   [
@@ -498,7 +533,9 @@ app.put(
 //   }
 // );
 
-// Delete a user by username
+/**
+ * Delete a user by username
+ */
 app.delete(
   "/users/:Username",
   passport.authenticate("jwt", { session: false }),
