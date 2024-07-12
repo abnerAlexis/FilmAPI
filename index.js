@@ -13,7 +13,8 @@ app.use(
 );
 
 /**
- * Cross-Origin-Resource-Sharing has to be placed before 'auth'
+ * List of allowed origins for CORS.
+ * @type {string[]}
  */
 const cors = require("cors");
 let allowedOrigins = [
@@ -24,6 +25,16 @@ let allowedOrigins = [
   "https://abneralexis.github.io"
 ];
 
+/**
+ * Middleware to configure CORS.
+ * 
+ * This middleware checks the origin of the incoming request. If the origin is not 
+ * in the allowedOrigins list, it returns an error. Otherwise, it allows the request.
+ *
+ * @function
+ * @param {Object} req - The request object.
+ * @param {Function} callback - The callback to handle the response.
+ */
 app.use(
   cors({
     origin: (origin, callback) => {
@@ -42,6 +53,11 @@ app.use(
 //importing express-validator
 const { check, validationResult } = require("express-validator");
 
+/**
+ * Initialize authentication module.
+ * 
+ * @param {Object} app - The Express application object.
+ */
 let auth = require("./auth")(app); //(app) argument allows Express to be available in auth.js
 const passport = require("passport");
 require("./passport");
@@ -60,6 +76,13 @@ const Models = require("./models");
 //     console.log(`DB connection error:${err}`);
 //   });
 
+
+/**
+ * Connect to the MongoDB database using the connection URI from environment variables.
+ * Logs a message indicating whether the connection was successful or if there was an error.
+ * 
+ * @returns {Promise} The promise for the database connection.
+ */
 mongoose.connect(process.env.CONNECTION_URI)
   .then(() => {
     console.log("DB connection is successful.");
@@ -68,13 +91,21 @@ mongoose.connect(process.env.CONNECTION_URI)
     console.log(`DB conndection error: ${err}`);
   })
 
-//creating a write stream in append mode, and a txt file in root dir.
+/**
+ * Create a write stream in append mode.
+ * This write stream logs data to a file named 'log.txt' in the root directory.
+ * 
+ * @type {fs.WriteStream}
+ */
 const accessLogStream = fs.createWriteStream(path.join(__dirname, "log.txt"), {
   flags: "a",
 });
 
 /**
- * setting up the logger
+ * Middleware to log HTTP requests.
+ * 
+ * @param {string} format - The format of the logs.
+ * @param {Object} options - Options for the logger, including the write stream.
  */
 app.use(morgan("combined", { stream: accessLogStream }));
 
@@ -104,7 +135,15 @@ app.get(
   });
 
 /**
- * Add new movie
+ * Route to create a new movie.
+ * 
+ * @name post/movies
+ * @function
+ * @memberof module:express.Router
+ * @inner
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * 
  */
 app.post(
   "/movies",
@@ -147,7 +186,16 @@ app.post(
 );
 
 /**
- * Get a movie by title
+ * Route to get a movie by title.
+ * 
+ * @name get/movies/:Title
+ * @function
+ * @memberof module:express.Router
+ * @inner
+ * @param {Object} req - The request object.
+ * @param {Object} req.params - The parameters from the URL.
+ * @param {string} req.params.Title - The title of the movie to retrieve.
+ * @param {Object} res - The response object.
  */
 app.get(
   "/movies/:Title",
@@ -189,7 +237,16 @@ app.post(
 );
 
 /**
- * Get director (bio, birth year, death year) by title.
+ * Route to get the director of a movie by title.
+ * 
+ * @name get/movies/director/:Title
+ * @function
+ * @memberof module:express.Router
+ * @inner
+ * @param {Object} req - The request object.
+ * @param {Object} req.params - The parameters from the URL.
+ * @param {string} req.params.Title - The title of the movie to retrieve the director for.
+ * @param {Object} res - The response object.
  */
 app.get(
   "/movies/director/:Title",
@@ -208,7 +265,16 @@ app.get(
 );
 
 /**
- * Get genre by title
+ * Route to get the genre of a movie by title.
+ * 
+ * @name get/movies/genre/:Title
+ * @function
+ * @memberof module:express.Router
+ * @inner
+ * @param {Object} req - The request object.
+ * @param {Object} req.params - The parameters from the URL.
+ * @param {string} req.params.Title - The title of the movie to retrieve the genre for.
+ * @param {Object} res - The response object.
  */
 app.get(
   "/movies/genre/:Title",
@@ -297,7 +363,19 @@ app.get(
 );
 
 /**
- * Add New User to users list
+ * Route to create a new user.
+ * 
+ * @name post/users
+ * @function
+ * @memberof module:express.Router
+ * @inner
+ * @param {Object} req - The request object.
+ * @param {Object} req.body - The request body containing user details.
+ * @param {string} req.body.Username - The username for the new user.
+ * @param {string} req.body.Password - The password for the new user.
+ * @param {string} req.body.Email - The email for the new user.
+ * @param {string} [req.body.Birthday] - The birthday for the new user.
+ * @param {Object} res - The response object.
  */
 app.post(
   "/users",
@@ -370,7 +448,16 @@ app.get(
 );
 
 /**
- * Add a movie to a user's list of favorites
+ * Route to add a movie to a user's list of favorite movies.
+ * 
+ * @name post/users/:Username/movies/:movieid
+ * @function
+ * @memberof module:express.Router
+ * @inner
+ * @param {Object} req - The request object.
+ * @param {string} req.params.Username - The username of the user.
+ * @param {string} req.params.movieid - The ID of the movie to be added to favorites.
+ * @param {Object} res - The response object.
  */
 app.post(
   "/users/:Username/movies/:movieid",
@@ -394,7 +481,15 @@ app.post(
 );
 
 /**
- * Delete a movie by title
+ * Route to delete a movie by its title.
+ * 
+ * @name delete/movies/:Title
+ * @function
+ * @memberof module:express.Router
+ * @inner
+ * @param {Object} req - The request object.
+ * @param {string} req.params.Title - The title of the movie to be deleted.
+ * @param {Object} res - The response object.
  */
 app.delete(
   "/movies/:Title",
@@ -416,7 +511,16 @@ app.delete(
 );
 
 /**
- * Remove a movie from a user's list of favorites
+ * Route to remove a movie from a user's list of favorite movies.
+ * 
+ * @name delete/users/:Username/movies/:movieid
+ * @function
+ * @memberof module:express.Router
+ * @inner
+ * @param {Object} req - The request object.
+ * @param {string} req.params.Username - The username of the user.
+ * @param {string} req.params.movieid - The ID of the movie to be removed from the user's favorites.
+ * @param {Object} res - The response object.
  */
 app.delete(
   "/users/:Username/movies/:movieid",
@@ -467,7 +571,20 @@ app.put("/movies/image/:title", async (req, res) => {
 });
 
 /**
- * Update user data
+ * Route to update a user's information.
+ * 
+ * @name put/users/update/:Username
+ * @function
+ * @memberof module:express.Router
+ * @inner
+ * @param {Object} req - The request object.
+ * @param {string} req.params.Username - The current username of the user.
+ * @param {Object} req.body - The request body.
+ * @param {string} req.body.Username - The new username for the user.
+ * @param {string} req.body.Password - The new password for the user.
+ * @param {string} req.body.Email - The new email for the user.
+ * @param {string} req.body.Birthday - The new birthday for the user.
+ * @param {Object} res - The response object.
  */
 app.put(
   "/users/update/:Username",
@@ -534,7 +651,15 @@ app.put(
 // );
 
 /**
- * Delete a user by username
+ * Route to delete a user by username.
+ * 
+ * @name delete/users/:Username
+ * @function
+ * @memberof module:express.Router
+ * @inner
+ * @param {Object} req - The request object.
+ * @param {string} req.params.Username - The username of the user to be deleted.
+ * @param {Object} res - The response object.
  */
 app.delete(
   "/users/:Username",
